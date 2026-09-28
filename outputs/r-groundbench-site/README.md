@@ -1,15 +1,31 @@
-# R-GroundBench Academic Project Page
+# 隐序重构 · Latent Recast Research
 
-Static GitHub Pages site for **R-GroundBench: A Diagnostic Benchmark for R-Group Grounding in Markush Molecular Editing**.
+**AI for Molecular Discovery & Patent Intelligence**
 
-The page follows the [Academic Project Page Template](https://github.com/eliahuhorwitz/Academic-project-page-template) structure and adds a deterministic benchmark-style interaction with four visual/symbolic VQA modalities, real molecule graphs, a SMILES → molecular graph converter, a performance-cliff readout, paper figures, and reproducibility links.
+> 发现隐序，重构可能。  
+> 从专利中发现隐含知识，  
+> 以智能重构分子的可能。
 
-Open `index.html` directly or serve this folder with:
+Latent Recast Research builds AI systems that connect patent knowledge with molecular discovery. We turn structured evidence from chemical documents into representations that can be inspected, evaluated, and used for molecular reasoning.
 
-```bash
-python3 -m http.server 4173 --directory .
-```
+## R-GroundBench
 
-The interactive examples are authored teaching slices. Full evaluation code and benchmark data are linked from the page.
+[R-GroundBench](https://github.com/latent-recast-research/r-groundbench-project-page) is an interactive academic project page for diagnosing R-group grounding in Markush molecular editing.
 
-The molecule cards use illustrative, valid SMILES from the paper’s substituent pool and are rendered as atom-and-bond graphs in the browser with the vendored MIT-licensed [SmilesDrawer](https://github.com/reymond-group/smilesDrawer) library. They are teaching examples rather than claims about a specific hidden benchmark record.
+- Four visual and symbolic VQA modalities: Image → Image, Image → SMILES, E-SMILES → Image, and E-SMILES → SMILES.
+- Real atom-and-bond molecular graphs rendered from SMILES, including a browser SMILES → molecular graph converter.
+- A teaching interaction that exposes the gap between candidate recognition and executable molecular editing.
+- A light, responsive project page based on the [Academic Project Page Template](https://github.com/eliahuhorwitz/Academic-project-page-template).
+
+**Project page:** [latent-recast-research.github.io/r-groundbench-project-page](https://latent-recast-research.github.io/r-groundbench-project-page/)
+
+**研究页：** [直接访问 R-GroundBench](https://latent-recast-research.github.io/r-groundbench-project-page/)
+
+## Scope
+
+The examples on the project page are authored teaching slices. They make the benchmark logic visible; they are not a chemistry safety certification or a substitute for the released evaluator and benchmark data.
+
+## Contact
+
+Latent Recast Research  
+隐序重构
