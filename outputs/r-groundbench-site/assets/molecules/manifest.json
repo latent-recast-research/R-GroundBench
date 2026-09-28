@@ -1,0 +1,34 @@
+{
+  "markush-easy": {
+    "smiles": "c1cc([*])ccc1",
+    "caption": "Markush · R[1]"
+  },
+  "markush-hard": {
+    "smiles": "c1nc(nc(n1)[*])[*]",
+    "caption": "Markush · R[2]"
+  },
+  "easy-a-4-chlorophenyl": {
+    "smiles": "c1ccc(-c2ccc(Cl)cc2)cc1",
+    "caption": "A · 4-chlorophenyl"
+  },
+  "easy-b-2-chlorophenyl": {
+    "smiles": "c1ccc(-c2ccccc2Cl)cc1",
+    "caption": "B · 2-chlorophenyl"
+  },
+  "easy-c-2-pyridyl": {
+    "smiles": "c1ccc(-c2ccccn2)cc1",
+    "caption": "C · 2-pyridyl"
+  },
+  "hard-a-phenyl": {
+    "smiles": "c1nc(nc(n1)c2ccccc2)c3ccccc3",
+    "caption": "A · phenyl"
+  },
+  "hard-b-3-pyridyl": {
+    "smiles": "c1nc(nc(n1)c2ccccc2)c3cccnc3",
+    "caption": "B · 3-pyridyl"
+  },
+  "hard-c-2-pyridyl": {
+    "smiles": "c1nc(nc(n1)c2ccccc2)c3ccccn3",
+    "caption": "C · 2-pyridyl"
+  }
+}
