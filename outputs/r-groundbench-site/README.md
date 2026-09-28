@@ -2,7 +2,7 @@
 
 Static GitHub Pages site for **R-GroundBench: A Diagnostic Benchmark for R-Group Grounding in Markush Molecular Editing**.
 
-The page follows the [Academic Project Page Template](https://github.com/eliahuhorwitz/Academic-project-page-template) structure and adds a deterministic benchmark-style interaction, a performance-cliff readout, paper figures, and reproducibility links.
+The page follows the [Academic Project Page Template](https://github.com/eliahuhorwitz/Academic-project-page-template) structure and adds a deterministic benchmark-style interaction with four visual/symbolic VQA modalities, a performance-cliff readout, paper figures, and reproducibility links.
 
 Open `index.html` directly or serve this folder with:
 
