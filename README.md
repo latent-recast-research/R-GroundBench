@@ -1,15 +1,5 @@
 # R-GroundBench
 
-**Latent Recast Research**<br>
-**AI for Molecular Discovery & Patent Intelligence**
-
-> 发现隐序，重构可能。  
-> 从专利中发现隐含知识，  
-> 以智能重构分子的可能。
-
-R-GroundBench is a project by Latent Recast Research. The organization connects patent knowledge with molecular discovery by turning structured evidence from chemical documents into representations that can be inspected, evaluated, and used for molecular reasoning.
-
-
 [R-GroundBench](https://github.com/latent-recast-research/R-GroundBench) is an interactive academic project page for diagnosing R-group grounding in Markush molecular editing.
 
 - Four visual and symbolic VQA modalities: Image → Image, Image → SMILES, E-SMILES → Image, and E-SMILES → SMILES.
@@ -24,7 +14,3 @@ R-GroundBench is a project by Latent Recast Research. The organization connects 
 ## Scope
 
 The examples on the project page are authored teaching slices. They make the benchmark logic visible; they are not a chemistry safety certification or a substitute for the released evaluator and benchmark data.
-
-## Organization
-
-Latent Recast Research
