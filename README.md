@@ -27,5 +27,4 @@ The examples on the project page are authored teaching slices. They make the ben
 
 ## Organization
 
-Latent Recast Research  
-隐序重构
+Latent Recast Research
