@@ -10,6 +10,7 @@
   <meta name="theme-color" content="#2563eb"><title>R-GroundBench | Academic Project Page</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%232563eb'/%3E%3Cpath d='M14 44 25 18h8l17 26h-9l-3.4-6.8H24.2L21.5 44H14Zm13.7-13.5h6.7L31 22.9l-3.3 7.6Z' fill='white'/%3E%3C/svg%3E">
   <link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="results.css">
 </head>
 <body>
 <a class="skip-link" href="#main" data-i18n="skip">Skip to content</a>
@@ -25,7 +26,933 @@
 
   <section class="academic-section interactive-section" id="try"><div class="academic-container"><div class="section-kicker"><span>02</span><span data-i18n="tryKicker">TRY THE TASK</span></div><div class="section-heading"><h2 id="try-title" data-i18n="tryTitle">Name the substituent. Find its position. Don’t trust the vibe.</h2><p data-i18n="tryIntro">A small authored slice of the benchmark logic. Candidates are real atom-and-bond graphs rendered from SMILES; this is still a teaching interaction, not a live RDKit validator.</p></div><div class="modality-bar"><div class="modality-title" data-i18n="modalityTitle">INPUT → CANDIDATE</div><div class="modality-switch" role="group" aria-label="Choose input and candidate modality"><button type="button" class="modality-button" data-modality="i2i" aria-pressed="false">Image → Image</button><button type="button" class="modality-button" data-modality="i2s" aria-pressed="false">Image → SMILES</button><button type="button" class="modality-button" data-modality="s2i" aria-pressed="false">E-SMILES → Image</button><button type="button" class="modality-button is-active" data-modality="s2s" aria-pressed="true">E-SMILES → SMILES</button></div><p id="modality-note" class="modality-note">Symbolic input and symbolic candidates: the cleanest view of editing logic.</p></div><div class="smiles-converter" aria-labelledby="smiles-converter-title"><div class="converter-heading"><div><div class="converter-kicker" data-i18n="smilesKicker">SMILES → MOLECULAR GRAPH</div><h3 id="smiles-converter-title" data-i18n="smilesConverterTitle">Turn a SMILES string into a molecular graph.</h3></div><span class="converter-status" id="smiles-status" data-i18n="smilesStatus">Ready to render a real structure.</span></div><div class="converter-controls"><label class="smiles-input-label"><span data-i18n="smilesInputLabel">SMILES</span><input id="smiles-input" type="text" value="c1ccc(-c2ccc(Cl)cc2)cc1" spellcheck="false" autocomplete="off"></label><button class="button button-primary" id="draw-smiles" type="button" data-i18n="smilesDraw">Draw graph</button></div><div class="graph-stage" id="smiles-graph" aria-live="polite"><svg class="molecule-graph converter-graph" id="smiles-graph-svg" role="img" aria-label="Molecular graph preview"></svg></div><p class="converter-caption" data-i18n="smilesCaption">This renders the actual atom-and-bond graph from the SMILES string. It is a visual aid, not an RDKit validity proof.</p></div><div class="task-shell"><aside class="task-sidebar"><p class="eyebrow" data-i18n="difficultyLabel">DIFFICULTY</p><button class="difficulty-button is-active" type="button" data-difficulty="easy" aria-pressed="true"><span>01</span><b data-i18n="easy">Easy</b><small data-i18n="easyHint">direct name · cross-scaffold</small></button><button class="difficulty-button" type="button" data-difficulty="hard" aria-pressed="false"><span>02</span><b data-i18n="hard">Hard</b><small data-i18n="hardHint">description · same scaffold</small></button><div class="task-side-note"><span>ΔEH</span><p data-i18n="taskSideNote">The reported bootstrap Easy→Hard gap is 36.3 percentage points.</p></div></aside><div class="task-main"><div class="task-meta"><span id="task-type">BASIC R-GROUP EDITING</span><span><span id="task-modality">E-SMILES → SMILES</span> · <span id="task-count">01 / 02</span></span></div><div class="task-question"><p class="eyebrow" data-i18n="questionLabel">MARKUSH STRUCTURE + INSTRUCTION</p><div id="input-preview" class="input-preview" hidden></div><div class="smiles-box" id="smiles-text"></div><h3 id="question-text"></h3></div><div class="options" id="options" role="radiogroup" aria-label="Candidate answers"></div><div class="task-actions"><button class="button button-primary" id="submit-answer" type="button" disabled data-i18n="submit">Submit answer</button><button class="button button-quiet" id="reset-answer" type="button" data-i18n="reset">Reset</button></div><div class="feedback" id="feedback" role="status" aria-live="polite"><span class="feedback-icon">↳</span><span data-i18n="feedbackPlaceholder">Choose a candidate, then submit to see what the benchmark is testing.</span></div></div></div></div></section>
 
-  <section class="academic-section results-section" id="results"><div class="academic-container"><div class="section-kicker"><span>03</span><span data-i18n="cliffKicker">THE PERFORMANCE CLIFF</span></div><div class="section-heading"><h2 id="cliff-title" data-i18n="cliffTitle">Easy accuracy is not the same thing as grounded editing.</h2><p data-i18n="cliffIntro">Switch conditions. Keep the model in view. Notice where candidate selection stops translating into executable molecular edits.</p></div><div class="cliff-shell" id="cliff"><div class="cliff-controls" role="group" aria-label="Performance condition"><button class="cliff-button is-active" type="button" data-metric="easy" aria-pressed="true"><span data-i18n="metricEasy">Easy VQA</span><small>GPT-5.5 · s2s</small></button><button class="cliff-button" type="button" data-metric="hard" aria-pressed="false"><span data-i18n="metricHard">Hard VQA</span><small>GPT-5.5 · s2s</small></button><button class="cliff-button" type="button" data-metric="generation" aria-pressed="false"><span data-i18n="metricGeneration">Generation</span><small>GPT-5.5 · s2s</small></button></div><div class="metric-grid"><article class="metric-card"><p class="eyebrow" data-i18n="metricPrimaryLabel">PRIMARY READOUT</p><strong id="metric-primary">98.3<span>%</span></strong><h3 id="metric-primary-name">Basic VQA · Easy</h3><div class="meter"><span id="meter-primary" style="width:98.3%"></span></div><p id="metric-primary-note"></p></article><article class="metric-card metric-card-outline"><p class="eyebrow" data-i18n="metricSecondaryLabel">WHAT IT HIDES</p><strong id="metric-secondary">66.1<span>%</span></strong><h3 id="metric-secondary-name">Basic VQA · Hard</h3><div class="meter meter-coral"><span id="meter-secondary" style="width:66.1%"></span></div><p id="metric-secondary-note"></p></article><article class="metric-card metric-card-amber"><p class="eyebrow" data-i18n="metricGapLabel">THE GAP</p><strong id="metric-gap">32.2<span>pp</span></strong><h3 id="metric-gap-name">Easy → Hard</h3><p id="metric-gap-note"></p></article></div><div class="cliff-callout"><div class="callout-number">14.7<span>%</span></div><p><b data-i18n="generationCalloutTitle">Average VLM Exact Match on Hard Generation (s2s)</b><span data-i18n="generationCalloutBody">The generation track removes the candidate set. In image→SMILES it falls further to 5.2%.</span></p></div><p class="chart-caption" id="metric-description" role="status" aria-live="polite"></p></div></div></section>
+  <section class="academic-section results-section" id="results"><div class="academic-container"><div class="section-kicker"><span>03</span><span data-i18n="cliffKicker">THE PERFORMANCE CLIFF</span></div><div class="section-heading"><h2 id="cliff-title" data-i18n="cliffTitle">Easy accuracy is not the same thing as grounded editing.</h2><p data-i18n="cliffIntro">Switch conditions. Keep the model in view. Notice where candidate selection stops translating into executable molecular edits.</p></div><div class="paper-diagnosis" id="paper-figure">
+  <div class="results-subheading">
+    <div><p class="section-kicker" data-results-i18n="visualKicker">FROM RECOGNITION TO GENERATION</p><h3 data-results-i18n="visualTitle">When the candidates disappear, performance falls.</h3></div>
+    <a class="result-text-link" href="assets/results/s2s-degradation.png" target="_blank" rel="noopener" data-results-i18n="openFigure">Open full-size figure ↗</a>
+  </div>
+  <p class="results-description" data-results-i18n="visualIntro">Read each panel from left to right: Basic VQA → Advanced VQA → Generation. Selecting a plausible molecule does not guarantee that a model can construct the correct one.</p>
+  <div class="figure-legend" aria-label="Figure legend"><span><i class="legend-basic"></i>Basic VQA</span><span><i class="legend-advanced"></i>Advanced VQA</span><span><i class="legend-generation"></i>Generation · EM</span><span class="figure-version" data-results-i18n="snapshot">PAPER FIGURE · EARLIER SNAPSHOT</span></div>
+  <figure class="paper-result-figure">
+    <a href="assets/results/s2s-degradation.png" target="_blank" rel="noopener" aria-label="Open the full-size paper figure"><img src="assets/results/s2s-degradation.png" width="2570" height="2573" loading="lazy" decoding="async" alt="Twelve model panels show the decline from Basic and Advanced VQA to Generation Exact Match under the s2s setting."></a>
+    <figcaption data-results-i18n="visualCaption">Original s2s figure from the paper appendix. This figure reflects an earlier evaluation snapshot; some model names and scores differ from the current manuscript tables below.</figcaption>
+  </figure>
+</div>
+
+
+<div class="cliff-shell" id="cliff"><div class="cliff-controls" role="group" aria-label="Performance condition"><button class="cliff-button is-active" type="button" data-metric="easy" aria-pressed="true"><span data-i18n="metricEasy">Easy VQA</span><small>GPT-5.5 · s2s</small></button><button class="cliff-button" type="button" data-metric="hard" aria-pressed="false"><span data-i18n="metricHard">Hard VQA</span><small>GPT-5.5 · s2s</small></button><button class="cliff-button" type="button" data-metric="generation" aria-pressed="false"><span data-i18n="metricGeneration">Generation</span><small>GPT-5.5 · s2s</small></button></div><div class="metric-grid"><article class="metric-card"><p class="eyebrow" data-i18n="metricPrimaryLabel">PRIMARY READOUT</p><strong id="metric-primary">98.3<span>%</span></strong><h3 id="metric-primary-name">Basic VQA · Easy</h3><div class="meter"><span id="meter-primary" style="width:98.3%"></span></div><p id="metric-primary-note"></p></article><article class="metric-card metric-card-outline"><p class="eyebrow" data-i18n="metricSecondaryLabel">WHAT IT HIDES</p><strong id="metric-secondary">66.1<span>%</span></strong><h3 id="metric-secondary-name">Basic VQA · Hard</h3><div class="meter meter-coral"><span id="meter-secondary" style="width:66.1%"></span></div><p id="metric-secondary-note"></p></article><article class="metric-card metric-card-amber"><p class="eyebrow" data-i18n="metricGapLabel">THE GAP</p><strong id="metric-gap">32.2<span>pp</span></strong><h3 id="metric-gap-name">Easy → Hard</h3><p id="metric-gap-note"></p></article></div><div class="cliff-callout"><div class="callout-number">14.7<span>%</span></div><p><b data-i18n="generationCalloutTitle">Average VLM Exact Match on Hard Generation (s2s)</b><span data-i18n="generationCalloutBody">The generation track removes the candidate set. In image→SMILES it falls further to 5.2%.</span></p></div><p class="chart-caption" id="metric-description" role="status" aria-live="polite"></p></div><div class="full-results" id="full-results">
+  <div class="results-subheading"><div><p class="section-kicker" data-results-i18n="tableKicker">THE COMPLETE RESULTS</p><h3 data-results-i18n="tableTitle">Every model. Every modality. Every split.</h3></div><a class="result-text-link" id="results-download" href="assets/results/vqa-results.csv" download data-results-i18n="download">Download CSV ↓</a></div>
+  <p class="results-description" data-results-i18n="tableIntro">Full results transcribed from the current manuscript tables. Filter the rows or scroll horizontally to compare all metrics.</p>
+  <div class="result-track-controls" role="group" aria-label="Result track"><button type="button" class="result-track-button is-active" data-result-track="vqa" aria-pressed="true">VQA <span>45</span></button><button type="button" class="result-track-button" data-result-track="generation" aria-pressed="false">Generation <span>26</span></button></div>
+  <div class="result-filter-bar">
+    <label><span data-results-i18n="groupLabel">Model group</span><select id="results-group-filter"><option value="all" data-results-i18n="allGroups">All model groups</option><option value="vlm" data-results-i18n="vlms">General VLMs</option><option value="llm" data-results-i18n="llms">General LLMs</option><option value="chemical" data-results-i18n="chemical">Chemical-domain models</option></select></label>
+    <label><span data-results-i18n="modalityLabel">Modality</span><select id="results-modality-filter"><option value="all" data-results-i18n="allModalities">All modalities</option><option value="i2i">i2i · Image → Image</option><option value="i2s">i2s · Image → SMILES</option><option value="s2i">s2i · E-SMILES → Image</option><option value="s2s">s2s · E-SMILES → SMILES</option></select></label>
+    <label class="result-search"><span data-results-i18n="searchLabel">Find a model</span><input id="results-search" type="search" placeholder="e.g. Qwen, GPT, ChemVLM" autocomplete="off"></label>
+    <p id="results-count" role="status" aria-live="polite">45 / 45 rows</p>
+  </div>
+  <div class="results-table-wrap" data-result-panel="vqa" role="region" aria-label="VQA results, scroll to see all columns" tabindex="0"><table class="results-table vqa-table" id="vqa-results-table"><caption>VQA: full paper-reported results from the current manuscript</caption><thead><tr>
+<th scope="col" rowspan="2" class="model-cell">Model</th><th scope="col" rowspan="2" class="group-cell">Model group</th><th scope="col" rowspan="2">Modality</th>
+<th scope="colgroup" colspan="4">Basic</th>
+<th scope="colgroup" colspan="4">Advanced</th>
+<th scope="colgroup" colspan="2">ΔEH (pp)</th>
+<th scope="colgroup" colspan="1">Overall</th>
+</tr><tr>
+<th scope="col">Easy</th>
+<th scope="col">Med</th>
+<th scope="col">Hard</th>
+<th scope="col">Avg.</th>
+<th scope="col">Easy</th>
+<th scope="col">Med</th>
+<th scope="col">Hard</th>
+<th scope="col">Avg.</th>
+<th scope="col">Basic</th>
+<th scope="col">Advanced</th>
+<th scope="col">Avg.</th>
+</tr></thead><tbody>
+<tr data-group="vlm" data-model="Qwen3-VL-8B" data-modality="i2i">
+<th scope="row" class="model-cell">Qwen3-VL-8B</th><td class="group-cell">General VLMs</td><td class="modality-cell">i2i</td>
+<td class="metric-separator">25.5</td>
+<td class="">24.9</td>
+<td class="">25.1</td>
+<td class="">25.2</td>
+<td class="metric-separator">21.3</td>
+<td class="">20.4</td>
+<td class="">21.1</td>
+<td class="">20.9</td>
+<td class="metric-separator">0.4</td>
+<td class="">0.2</td>
+<td class="metric-separator overall-cell">23.0</td>
+</tr>
+<tr data-group="vlm" data-model="Qwen3-VL-8B" data-modality="i2s">
+<th scope="row" class="model-cell">Qwen3-VL-8B</th><td class="group-cell">General VLMs</td><td class="modality-cell">i2s</td>
+<td class="metric-separator">93.6</td>
+<td class="">74.8</td>
+<td class="">55.7</td>
+<td class="">74.7</td>
+<td class="metric-separator">55.2</td>
+<td class="">54.7</td>
+<td class="">55.7</td>
+<td class="">55.2</td>
+<td class="metric-separator">37.9</td>
+<td class="">-0.5</td>
+<td class="metric-separator overall-cell">64.9</td>
+</tr>
+<tr data-group="vlm" data-model="Qwen3-VL-8B" data-modality="s2i">
+<th scope="row" class="model-cell">Qwen3-VL-8B</th><td class="group-cell">General VLMs</td><td class="modality-cell">s2i</td>
+<td class="metric-separator">78.4</td>
+<td class="">68.7</td>
+<td class="">49.6</td>
+<td class="">65.6</td>
+<td class="metric-separator">37.7</td>
+<td class="">38.2</td>
+<td class="">37.2</td>
+<td class="">37.7</td>
+<td class="metric-separator">28.8</td>
+<td class="">0.5</td>
+<td class="metric-separator overall-cell">51.6</td>
+</tr>
+<tr data-group="vlm" data-model="Qwen3-VL-8B" data-modality="s2s">
+<th scope="row" class="model-cell">Qwen3-VL-8B</th><td class="group-cell">General VLMs</td><td class="modality-cell">s2s</td>
+<td class="metric-separator">93.4</td>
+<td class="">72.7</td>
+<td class="">55.9</td>
+<td class="">74.0</td>
+<td class="metric-separator">49.4</td>
+<td class="">48.7</td>
+<td class="">49.2</td>
+<td class="">49.1</td>
+<td class="metric-separator">37.5</td>
+<td class="">0.2</td>
+<td class="metric-separator overall-cell">61.6</td>
+</tr>
+<tr data-group="vlm" data-model="Qwen3-VL-32B" data-modality="i2i">
+<th scope="row" class="model-cell">Qwen3-VL-32B</th><td class="group-cell">General VLMs</td><td class="modality-cell">i2i</td>
+<td class="metric-separator"><u>98.1</u></td>
+<td class="">90.2</td>
+<td class="">55.5</td>
+<td class="">81.3</td>
+<td class="metric-separator">44.6</td>
+<td class="">44.2</td>
+<td class="">47.0</td>
+<td class="">45.3</td>
+<td class="metric-separator">42.6</td>
+<td class="">-2.4</td>
+<td class="metric-separator overall-cell">63.3</td>
+</tr>
+<tr data-group="vlm" data-model="Qwen3-VL-32B" data-modality="i2s">
+<th scope="row" class="model-cell">Qwen3-VL-32B</th><td class="group-cell">General VLMs</td><td class="modality-cell">i2s</td>
+<td class="metric-separator">97.7</td>
+<td class="">91.3</td>
+<td class="">60.9</td>
+<td class="">83.3</td>
+<td class="metric-separator"><u>60.4</u></td>
+<td class=""><u>60.3</u></td>
+<td class=""><strong>61.0</strong></td>
+<td class=""><u>60.6</u></td>
+<td class="metric-separator">36.8</td>
+<td class="">-0.6</td>
+<td class="metric-separator overall-cell">71.9</td>
+</tr>
+<tr data-group="vlm" data-model="Qwen3-VL-32B" data-modality="s2i">
+<th scope="row" class="model-cell">Qwen3-VL-32B</th><td class="group-cell">General VLMs</td><td class="modality-cell">s2i</td>
+<td class="metric-separator">95.2</td>
+<td class="">90.6</td>
+<td class="">55.6</td>
+<td class="">80.5</td>
+<td class="metric-separator">46.4</td>
+<td class="">47.2</td>
+<td class="">44.0</td>
+<td class="">45.9</td>
+<td class="metric-separator">39.6</td>
+<td class="">2.4</td>
+<td class="metric-separator overall-cell">63.2</td>
+</tr>
+<tr data-group="vlm" data-model="Qwen3-VL-32B" data-modality="s2s">
+<th scope="row" class="model-cell">Qwen3-VL-32B</th><td class="group-cell">General VLMs</td><td class="modality-cell">s2s</td>
+<td class="metric-separator">97.5</td>
+<td class="">91.4</td>
+<td class="">61.9</td>
+<td class="">83.6</td>
+<td class="metric-separator">50.3</td>
+<td class="">48.9</td>
+<td class="">49.1</td>
+<td class="">49.4</td>
+<td class="metric-separator">35.6</td>
+<td class="">1.2</td>
+<td class="metric-separator overall-cell">66.5</td>
+</tr>
+<tr data-group="vlm" data-model="Claude Sonnet 4.6" data-modality="i2i">
+<th scope="row" class="model-cell">Claude Sonnet 4.6</th><td class="group-cell">General VLMs</td><td class="modality-cell">i2i</td>
+<td class="metric-separator"><strong>98.5</strong></td>
+<td class=""><u>94.6</u></td>
+<td class="">61.6</td>
+<td class=""><u>84.9</u></td>
+<td class="metric-separator">48.4</td>
+<td class="">46.4</td>
+<td class="">51.6</td>
+<td class="">48.8</td>
+<td class="metric-separator">36.9</td>
+<td class="">-3.2</td>
+<td class="metric-separator overall-cell">66.8</td>
+</tr>
+<tr data-group="vlm" data-model="Claude Sonnet 4.6" data-modality="i2s">
+<th scope="row" class="model-cell">Claude Sonnet 4.6</th><td class="group-cell">General VLMs</td><td class="modality-cell">i2s</td>
+<td class="metric-separator"><strong>98.3</strong></td>
+<td class=""><u>94.8</u></td>
+<td class="">63.8</td>
+<td class="">85.6</td>
+<td class="metric-separator">59.2</td>
+<td class="">52.5</td>
+<td class="">54.3</td>
+<td class="">55.3</td>
+<td class="metric-separator">34.5</td>
+<td class="">4.9</td>
+<td class="metric-separator overall-cell">70.5</td>
+</tr>
+<tr data-group="vlm" data-model="Claude Sonnet 4.6" data-modality="s2i">
+<th scope="row" class="model-cell">Claude Sonnet 4.6</th><td class="group-cell">General VLMs</td><td class="modality-cell">s2i</td>
+<td class="metric-separator"><strong>97.9</strong></td>
+<td class="">86.0</td>
+<td class="">59.7</td>
+<td class="">81.2</td>
+<td class="metric-separator">53.3</td>
+<td class="">50.8</td>
+<td class="">52.4</td>
+<td class="">52.2</td>
+<td class="metric-separator">38.2</td>
+<td class="">0.9</td>
+<td class="metric-separator overall-cell">66.7</td>
+</tr>
+<tr data-group="vlm" data-model="Claude Sonnet 4.6" data-modality="s2s">
+<th scope="row" class="model-cell">Claude Sonnet 4.6</th><td class="group-cell">General VLMs</td><td class="modality-cell">s2s</td>
+<td class="metric-separator"><strong>98.9</strong></td>
+<td class="">89.0</td>
+<td class="">61.5</td>
+<td class="">83.1</td>
+<td class="metric-separator"><u>57.3</u></td>
+<td class=""><u>52.5</u></td>
+<td class="">54.9</td>
+<td class=""><strong>54.9</strong></td>
+<td class="metric-separator">37.4</td>
+<td class="">2.4</td>
+<td class="metric-separator overall-cell">69.0</td>
+</tr>
+<tr data-group="vlm" data-model="GPT-4o" data-modality="i2i">
+<th scope="row" class="model-cell">GPT-4o</th><td class="group-cell">General VLMs</td><td class="modality-cell">i2i</td>
+<td class="metric-separator">97.5</td>
+<td class="">83.8</td>
+<td class="">58.2</td>
+<td class="">79.8</td>
+<td class="metric-separator">43.9</td>
+<td class="">43.9</td>
+<td class="">42.9</td>
+<td class="">43.6</td>
+<td class="metric-separator">39.3</td>
+<td class="">1.0</td>
+<td class="metric-separator overall-cell">61.7</td>
+</tr>
+<tr data-group="vlm" data-model="GPT-4o" data-modality="i2s">
+<th scope="row" class="model-cell">GPT-4o</th><td class="group-cell">General VLMs</td><td class="modality-cell">i2s</td>
+<td class="metric-separator">96.8</td>
+<td class="">90.6</td>
+<td class="">60.6</td>
+<td class="">82.7</td>
+<td class="metric-separator">57.3</td>
+<td class="">58.2</td>
+<td class="">52.1</td>
+<td class="">55.9</td>
+<td class="metric-separator">36.2</td>
+<td class="">5.2</td>
+<td class="metric-separator overall-cell">69.3</td>
+</tr>
+<tr data-group="vlm" data-model="GPT-4o" data-modality="s2i">
+<th scope="row" class="model-cell">GPT-4o</th><td class="group-cell">General VLMs</td><td class="modality-cell">s2i</td>
+<td class="metric-separator"><u>97.5</u></td>
+<td class="">83.1</td>
+<td class="">57.7</td>
+<td class="">79.4</td>
+<td class="metric-separator">47.3</td>
+<td class="">49.2</td>
+<td class="">47.6</td>
+<td class="">48.0</td>
+<td class="metric-separator">39.8</td>
+<td class="">-0.3</td>
+<td class="metric-separator overall-cell">63.7</td>
+</tr>
+<tr data-group="vlm" data-model="GPT-4o" data-modality="s2s">
+<th scope="row" class="model-cell">GPT-4o</th><td class="group-cell">General VLMs</td><td class="modality-cell">s2s</td>
+<td class="metric-separator">97.7</td>
+<td class="">89.8</td>
+<td class="">61.1</td>
+<td class="">82.9</td>
+<td class="metric-separator">35.2</td>
+<td class="">37.9</td>
+<td class="">42.7</td>
+<td class="">38.6</td>
+<td class="metric-separator">36.6</td>
+<td class="">-7.5</td>
+<td class="metric-separator overall-cell">60.7</td>
+</tr>
+<tr data-group="vlm" data-model="GPT-4.1" data-modality="i2i">
+<th scope="row" class="model-cell">GPT-4.1</th><td class="group-cell">General VLMs</td><td class="modality-cell">i2i</td>
+<td class="metric-separator">97.8</td>
+<td class="">87.3</td>
+<td class="">60.4</td>
+<td class="">81.8</td>
+<td class="metric-separator">53.5</td>
+<td class="">50.8</td>
+<td class="">50.5</td>
+<td class="">51.6</td>
+<td class="metric-separator">37.4</td>
+<td class="">3.0</td>
+<td class="metric-separator overall-cell">66.7</td>
+</tr>
+<tr data-group="vlm" data-model="GPT-4.1" data-modality="i2s">
+<th scope="row" class="model-cell">GPT-4.1</th><td class="group-cell">General VLMs</td><td class="modality-cell">i2s</td>
+<td class="metric-separator">97.5</td>
+<td class="">90.4</td>
+<td class="">62.8</td>
+<td class="">83.6</td>
+<td class="metric-separator">59.0</td>
+<td class=""><strong>60.7</strong></td>
+<td class=""><u>54.1</u></td>
+<td class="">57.9</td>
+<td class="metric-separator">34.7</td>
+<td class="">4.9</td>
+<td class="metric-separator overall-cell">70.8</td>
+</tr>
+<tr data-group="vlm" data-model="GPT-4.1" data-modality="s2i">
+<th scope="row" class="model-cell">GPT-4.1</th><td class="group-cell">General VLMs</td><td class="modality-cell">s2i</td>
+<td class="metric-separator">96.4</td>
+<td class="">84.9</td>
+<td class="">60.3</td>
+<td class="">80.5</td>
+<td class="metric-separator">53.3</td>
+<td class="">53.5</td>
+<td class="">50.2</td>
+<td class="">52.3</td>
+<td class="metric-separator">36.1</td>
+<td class="">3.1</td>
+<td class="metric-separator overall-cell">66.4</td>
+</tr>
+<tr data-group="vlm" data-model="GPT-4.1" data-modality="s2s">
+<th scope="row" class="model-cell">GPT-4.1</th><td class="group-cell">General VLMs</td><td class="modality-cell">s2s</td>
+<td class="metric-separator">97.3</td>
+<td class="">90.5</td>
+<td class="">61.9</td>
+<td class="">83.2</td>
+<td class="metric-separator">39.1</td>
+<td class="">41.6</td>
+<td class="">42.1</td>
+<td class="">40.9</td>
+<td class="metric-separator">35.4</td>
+<td class="">-3.0</td>
+<td class="metric-separator overall-cell">62.1</td>
+</tr>
+<tr data-group="vlm" data-model="GPT-5.5" data-modality="i2i">
+<th scope="row" class="model-cell">GPT-5.5</th><td class="group-cell">General VLMs</td><td class="modality-cell">i2i</td>
+<td class="metric-separator">96.8</td>
+<td class=""><strong>95.5</strong></td>
+<td class=""><strong>64.3</strong></td>
+<td class=""><strong>85.5</strong></td>
+<td class="metric-separator"><u>54.9</u></td>
+<td class=""><u>57.7</u></td>
+<td class=""><u>50.5</u></td>
+<td class=""><u>54.4</u></td>
+<td class="metric-separator">32.5</td>
+<td class="">4.4</td>
+<td class="metric-separator overall-cell"><u>70.0</u></td>
+</tr>
+<tr data-group="vlm" data-model="GPT-5.5" data-modality="i2s">
+<th scope="row" class="model-cell">GPT-5.5</th><td class="group-cell">General VLMs</td><td class="modality-cell">i2s</td>
+<td class="metric-separator"><u>97.9</u></td>
+<td class=""><strong>98.5</strong></td>
+<td class=""><strong>66.1</strong></td>
+<td class=""><strong>87.5</strong></td>
+<td class="metric-separator">60.3</td>
+<td class="">59.5</td>
+<td class="">58.4</td>
+<td class="">59.4</td>
+<td class="metric-separator">31.8</td>
+<td class="">1.9</td>
+<td class="metric-separator overall-cell"><strong>73.5</strong></td>
+</tr>
+<tr data-group="vlm" data-model="GPT-5.5" data-modality="s2i">
+<th scope="row" class="model-cell">GPT-5.5</th><td class="group-cell">General VLMs</td><td class="modality-cell">s2i</td>
+<td class="metric-separator">95.3</td>
+<td class=""><strong>94.0</strong></td>
+<td class=""><strong>64.4</strong></td>
+<td class=""><strong>84.6</strong></td>
+<td class="metric-separator"><u>54.9</u></td>
+<td class=""><u>55.4</u></td>
+<td class=""><u>55.8</u></td>
+<td class=""><u>55.4</u></td>
+<td class="metric-separator">30.9</td>
+<td class="">-0.9</td>
+<td class="metric-separator overall-cell"><u>70.0</u></td>
+</tr>
+<tr data-group="vlm" data-model="GPT-5.5" data-modality="s2s">
+<th scope="row" class="model-cell">GPT-5.5</th><td class="group-cell">General VLMs</td><td class="modality-cell">s2s</td>
+<td class="metric-separator"><u>98.3</u></td>
+<td class=""><strong>98.5</strong></td>
+<td class=""><u>66.1</u></td>
+<td class=""><strong>87.6</strong></td>
+<td class="metric-separator"><strong>58.8</strong></td>
+<td class="">48.1</td>
+<td class=""><strong>53.8</strong></td>
+<td class="">53.6</td>
+<td class="metric-separator">32.2</td>
+<td class="">5.0</td>
+<td class="metric-separator overall-cell"><strong>70.6</strong></td>
+</tr>
+<tr data-group="vlm" data-model="Gemini 2.5 Flash" data-modality="i2i">
+<th scope="row" class="model-cell">Gemini 2.5 Flash</th><td class="group-cell">General VLMs</td><td class="modality-cell">i2i</td>
+<td class="metric-separator">95.3</td>
+<td class="">93.8</td>
+<td class=""><u>62.6</u></td>
+<td class="">83.9</td>
+<td class="metric-separator"><strong>59.8</strong></td>
+<td class=""><strong>58.2</strong></td>
+<td class=""><strong>62.2</strong></td>
+<td class=""><strong>60.1</strong></td>
+<td class="metric-separator">32.7</td>
+<td class="">-2.4</td>
+<td class="metric-separator overall-cell"><strong>72.0</strong></td>
+</tr>
+<tr data-group="vlm" data-model="Gemini 2.5 Flash" data-modality="i2s">
+<th scope="row" class="model-cell">Gemini 2.5 Flash</th><td class="group-cell">General VLMs</td><td class="modality-cell">i2s</td>
+<td class="metric-separator">97.5</td>
+<td class=""><u>94.8</u></td>
+<td class=""><u>65.4</u></td>
+<td class=""><u>85.9</u></td>
+<td class="metric-separator"><strong>62.5</strong></td>
+<td class=""><u>60.3</u></td>
+<td class=""><u>60.1</u></td>
+<td class=""><strong>61.0</strong></td>
+<td class="metric-separator">32.1</td>
+<td class="">2.4</td>
+<td class="metric-separator overall-cell"><u>73.4</u></td>
+</tr>
+<tr data-group="vlm" data-model="Gemini 2.5 Flash" data-modality="s2i">
+<th scope="row" class="model-cell">Gemini 2.5 Flash</th><td class="group-cell">General VLMs</td><td class="modality-cell">s2i</td>
+<td class="metric-separator">96.8</td>
+<td class=""><u>93.4</u></td>
+<td class=""><u>62.0</u></td>
+<td class=""><u>84.1</u></td>
+<td class="metric-separator"><strong>61.4</strong></td>
+<td class=""><strong>58.7</strong></td>
+<td class=""><strong>61.4</strong></td>
+<td class=""><strong>60.5</strong></td>
+<td class="metric-separator">34.8</td>
+<td class="">0.0</td>
+<td class="metric-separator overall-cell"><strong>72.3</strong></td>
+</tr>
+<tr data-group="vlm" data-model="Gemini 2.5 Flash" data-modality="s2s">
+<th scope="row" class="model-cell">Gemini 2.5 Flash</th><td class="group-cell">General VLMs</td><td class="modality-cell">s2s</td>
+<td class="metric-separator">98.1</td>
+<td class=""><u>95.1</u></td>
+<td class="">63.8</td>
+<td class=""><u>85.7</u></td>
+<td class="metric-separator">54.7</td>
+<td class=""><strong>53.5</strong></td>
+<td class=""><u>52.5</u></td>
+<td class=""><u>53.6</u></td>
+<td class="metric-separator">34.3</td>
+<td class="">2.2</td>
+<td class="metric-separator overall-cell"><u>69.6</u></td>
+</tr>
+<tr data-group="vlm" data-model="Llama 4 Maverick" data-modality="i2i">
+<th scope="row" class="model-cell">Llama 4 Maverick</th><td class="group-cell">General VLMs</td><td class="modality-cell">i2i</td>
+<td class="metric-separator">92.7</td>
+<td class="">86.2</td>
+<td class="">59.5</td>
+<td class="">79.5</td>
+<td class="metric-separator">35.2</td>
+<td class="">36.0</td>
+<td class="">33.3</td>
+<td class="">34.8</td>
+<td class="metric-separator">33.2</td>
+<td class="">1.9</td>
+<td class="metric-separator overall-cell">57.2</td>
+</tr>
+<tr data-group="vlm" data-model="Llama 4 Maverick" data-modality="i2s">
+<th scope="row" class="model-cell">Llama 4 Maverick</th><td class="group-cell">General VLMs</td><td class="modality-cell">i2s</td>
+<td class="metric-separator">93.6</td>
+<td class="">82.0</td>
+<td class="">62.6</td>
+<td class="">79.4</td>
+<td class="metric-separator">56.3</td>
+<td class="">54.4</td>
+<td class="">55.8</td>
+<td class="">55.5</td>
+<td class="metric-separator">31.0</td>
+<td class="">0.5</td>
+<td class="metric-separator overall-cell">67.5</td>
+</tr>
+<tr data-group="vlm" data-model="Llama 4 Maverick" data-modality="s2i">
+<th scope="row" class="model-cell">Llama 4 Maverick</th><td class="group-cell">General VLMs</td><td class="modality-cell">s2i</td>
+<td class="metric-separator">89.7</td>
+<td class="">81.2</td>
+<td class="">59.9</td>
+<td class="">76.9</td>
+<td class="metric-separator">36.0</td>
+<td class="">38.2</td>
+<td class="">37.5</td>
+<td class="">37.2</td>
+<td class="metric-separator">29.8</td>
+<td class="">-1.5</td>
+<td class="metric-separator overall-cell">57.1</td>
+</tr>
+<tr data-group="vlm" data-model="Llama 4 Maverick" data-modality="s2s">
+<th scope="row" class="model-cell">Llama 4 Maverick</th><td class="group-cell">General VLMs</td><td class="modality-cell">s2s</td>
+<td class="metric-separator">90.6</td>
+<td class="">82.3</td>
+<td class="">63.7</td>
+<td class="">78.9</td>
+<td class="metric-separator">33.6</td>
+<td class="">36.3</td>
+<td class="">37.7</td>
+<td class="">35.9</td>
+<td class="metric-separator">26.9</td>
+<td class="">-4.1</td>
+<td class="metric-separator overall-cell">57.4</td>
+</tr>
+<tr data-group="llm" data-model="DeepSeek-V4-Pro" data-modality="s2s">
+<th scope="row" class="model-cell">DeepSeek-V4-Pro</th><td class="group-cell">General LLMs</td><td class="modality-cell">s2s</td>
+<td class="metric-separator">97.3</td>
+<td class=""><strong>98.1</strong></td>
+<td class=""><u>68.7</u></td>
+<td class=""><u>88.0</u></td>
+<td class="metric-separator"><strong>52.5</strong></td>
+<td class=""><strong>55.1</strong></td>
+<td class=""><strong>54.6</strong></td>
+<td class=""><strong>54.1</strong></td>
+<td class="metric-separator">28.6</td>
+<td class="" title="Paper-reported value; Easy minus Hard from the displayed scores is -2.1 pp.">13.4<sup>†</sup></td>
+<td class="metric-separator overall-cell"><strong>71.0</strong></td>
+</tr>
+<tr data-group="llm" data-model="DeepSeek-R1" data-modality="s2s">
+<th scope="row" class="model-cell">DeepSeek-R1</th><td class="group-cell">General LLMs</td><td class="modality-cell">s2s</td>
+<td class="metric-separator">94.0</td>
+<td class="">95.0</td>
+<td class="">62.6</td>
+<td class="">83.9</td>
+<td class="metric-separator">47.6</td>
+<td class=""><u>54.7</u></td>
+<td class="">42.0</td>
+<td class="">48.1</td>
+<td class="metric-separator">31.4</td>
+<td class="">5.6</td>
+<td class="metric-separator overall-cell">66.0</td>
+</tr>
+<tr data-group="llm" data-model="LLaMA-3.3-70B-Instruct" data-modality="s2s">
+<th scope="row" class="model-cell">LLaMA-3.3-70B-Instruct</th><td class="group-cell">General LLMs</td><td class="modality-cell">s2s</td>
+<td class="metric-separator">96.7</td>
+<td class="">79.6</td>
+<td class="">60.4</td>
+<td class="">78.9</td>
+<td class="metric-separator">42.6</td>
+<td class="">42.9</td>
+<td class="">44.2</td>
+<td class="">43.2</td>
+<td class="metric-separator">36.3</td>
+<td class="">-1.6</td>
+<td class="metric-separator overall-cell">61.1</td>
+</tr>
+<tr data-group="llm" data-model="o3" data-modality="s2s">
+<th scope="row" class="model-cell">o3</th><td class="group-cell">General LLMs</td><td class="modality-cell">s2s</td>
+<td class="metric-separator"><u>97.7</u></td>
+<td class=""><u>97.7</u></td>
+<td class=""><strong>69.3</strong></td>
+<td class=""><strong>88.2</strong></td>
+<td class="metric-separator">44.5</td>
+<td class="">43.1</td>
+<td class=""><u>52.5</u></td>
+<td class="">46.7</td>
+<td class="metric-separator">28.4</td>
+<td class="">-8.0</td>
+<td class="metric-separator overall-cell">67.5</td>
+</tr>
+<tr data-group="llm" data-model="Qwen3-Max-2025-09-23" data-modality="s2s">
+<th scope="row" class="model-cell">Qwen3-Max-2025-09-23</th><td class="group-cell">General LLMs</td><td class="modality-cell">s2s</td>
+<td class="metric-separator"><strong>98.6</strong></td>
+<td class="">95.5</td>
+<td class="">64.2</td>
+<td class="">86.1</td>
+<td class="metric-separator"><u>47.9</u></td>
+<td class="">49.2</td>
+<td class="">50.9</td>
+<td class=""><u>49.3</u></td>
+<td class="metric-separator">34.4</td>
+<td class="">-3.0</td>
+<td class="metric-separator overall-cell"><u>67.7</u></td>
+</tr>
+<tr data-group="chemical" data-model="ChemVLM-8B" data-modality="i2i">
+<th scope="row" class="model-cell">ChemVLM-8B</th><td class="group-cell">Chemical-domain Models</td><td class="modality-cell">i2i</td>
+<td class="metric-separator">34.2</td>
+<td class="">36.0</td>
+<td class="">28.9</td>
+<td class="">33.0</td>
+<td class="metric-separator">23.7</td>
+<td class="">21.8</td>
+<td class="">22.9</td>
+<td class="">22.8</td>
+<td class="metric-separator" title="Paper-reported value; Easy minus Hard from the displayed scores is 5.3 pp.">11.3<sup>†</sup></td>
+<td class="">0.8</td>
+<td class="metric-separator overall-cell">27.9</td>
+</tr>
+<tr data-group="chemical" data-model="ChemVLM-8B" data-modality="i2s">
+<th scope="row" class="model-cell">ChemVLM-8B</th><td class="group-cell">Chemical-domain Models</td><td class="modality-cell">i2s</td>
+<td class="metric-separator">96.8</td>
+<td class="">85.9</td>
+<td class="">56.7</td>
+<td class="">79.8</td>
+<td class="metric-separator">63.0</td>
+<td class="">63.4</td>
+<td class="">63.8</td>
+<td class="">63.4</td>
+<td class="metric-separator" title="Paper-reported value; Easy minus Hard from the displayed scores is 40.1 pp.">33.0<sup>†</sup></td>
+<td class="" title="Paper-reported value; Easy minus Hard from the displayed scores is -0.8 pp.">-0.4<sup>†</sup></td>
+<td class="metric-separator overall-cell">71.6</td>
+</tr>
+<tr data-group="chemical" data-model="ChemVLM-8B" data-modality="s2i">
+<th scope="row" class="model-cell">ChemVLM-8B</th><td class="group-cell">Chemical-domain Models</td><td class="modality-cell">s2i</td>
+<td class="metric-separator">62.2</td>
+<td class="">53.9</td>
+<td class="">40.2</td>
+<td class="">52.1</td>
+<td class="metric-separator">35.8</td>
+<td class="">38.5</td>
+<td class="">37.4</td>
+<td class="">37.2</td>
+<td class="metric-separator" title="Paper-reported value; Easy minus Hard from the displayed scores is 22.0 pp.">24.8<sup>†</sup></td>
+<td class="" title="Paper-reported value; Easy minus Hard from the displayed scores is -1.6 pp.">-0.5<sup>†</sup></td>
+<td class="metric-separator overall-cell">44.7</td>
+</tr>
+<tr data-group="chemical" data-model="ChemVLM-8B" data-modality="s2s">
+<th scope="row" class="model-cell">ChemVLM-8B</th><td class="group-cell">Chemical-domain Models</td><td class="modality-cell">s2s</td>
+<td class="metric-separator">96.3</td>
+<td class="">84.2</td>
+<td class="">58.8</td>
+<td class="">79.7</td>
+<td class="metric-separator">61.2</td>
+<td class="">60.4</td>
+<td class="">61.5</td>
+<td class="">61.0</td>
+<td class="metric-separator" title="Paper-reported value; Easy minus Hard from the displayed scores is 37.5 pp.">34.8<sup>†</sup></td>
+<td class="" title="Paper-reported value; Easy minus Hard from the displayed scores is -0.3 pp.">0.7<sup>†</sup></td>
+<td class="metric-separator overall-cell">70.4</td>
+</tr>
+<tr data-group="chemical" data-model="MolVL-7B" data-modality="i2i">
+<th scope="row" class="model-cell">MolVL-7B</th><td class="group-cell">Chemical-domain Models</td><td class="modality-cell">i2i</td>
+<td class="metric-separator">22.0</td>
+<td class="">20.5</td>
+<td class="">25.5</td>
+<td class="">22.7</td>
+<td class="metric-separator">22.1</td>
+<td class="">29.4</td>
+<td class="">24.0</td>
+<td class="">25.2</td>
+<td class="metric-separator" title="Paper-reported value; Easy minus Hard from the displayed scores is -3.5 pp.">-2.0<sup>†</sup></td>
+<td class="" title="Paper-reported value; Easy minus Hard from the displayed scores is -1.9 pp.">-3.9<sup>†</sup></td>
+<td class="metric-separator overall-cell">23.9</td>
+</tr>
+<tr data-group="chemical" data-model="MolVL-7B" data-modality="i2s">
+<th scope="row" class="model-cell">MolVL-7B</th><td class="group-cell">Chemical-domain Models</td><td class="modality-cell">i2s</td>
+<td class="metric-separator">20.5</td>
+<td class="">19.6</td>
+<td class="">25.7</td>
+<td class="">21.9</td>
+<td class="metric-separator">22.0</td>
+<td class="">29.7</td>
+<td class="">23.9</td>
+<td class="">25.2</td>
+<td class="metric-separator" title="Paper-reported value; Easy minus Hard from the displayed scores is -5.2 pp.">-3.4<sup>†</sup></td>
+<td class="" title="Paper-reported value; Easy minus Hard from the displayed scores is -1.9 pp.">-4.0<sup>†</sup></td>
+<td class="metric-separator overall-cell">23.6</td>
+</tr>
+<tr data-group="chemical" data-model="MolVL-7B" data-modality="s2i">
+<th scope="row" class="model-cell">MolVL-7B</th><td class="group-cell">Chemical-domain Models</td><td class="modality-cell">s2i</td>
+<td class="metric-separator">21.7</td>
+<td class="">19.5</td>
+<td class="">25.2</td>
+<td class="">22.1</td>
+<td class="metric-separator">21.9</td>
+<td class="">30.0</td>
+<td class="">23.8</td>
+<td class="">25.2</td>
+<td class="metric-separator" title="Paper-reported value; Easy minus Hard from the displayed scores is -3.5 pp.">-2.1<sup>†</sup></td>
+<td class="" title="Paper-reported value; Easy minus Hard from the displayed scores is -1.9 pp.">-3.9<sup>†</sup></td>
+<td class="metric-separator overall-cell">23.7</td>
+</tr>
+<tr data-group="chemical" data-model="MolVL-7B" data-modality="s2s">
+<th scope="row" class="model-cell">MolVL-7B</th><td class="group-cell">Chemical-domain Models</td><td class="modality-cell">s2s</td>
+<td class="metric-separator">22.5</td>
+<td class="">22.8</td>
+<td class="">25.7</td>
+<td class="">23.7</td>
+<td class="metric-separator">21.9</td>
+<td class="">29.8</td>
+<td class="">23.8</td>
+<td class="">25.2</td>
+<td class="metric-separator" title="Paper-reported value; Easy minus Hard from the displayed scores is -3.2 pp.">-1.3<sup>†</sup></td>
+<td class="" title="Paper-reported value; Easy minus Hard from the displayed scores is -1.9 pp.">-4.0<sup>†</sup></td>
+<td class="metric-separator overall-cell">24.4</td>
+</tr>
+</tbody></table></div>
+<div class="results-table-wrap" data-result-panel="generation" role="region" aria-label="Generation results, scroll to see all columns" tabindex="0"><table class="results-table generation-table" id="generation-results-table"><caption>Generation: full paper-reported results from the current manuscript</caption><thead><tr>
+<th scope="col" rowspan="2" class="model-cell">Model</th><th scope="col" rowspan="2" class="group-cell">Model group</th><th scope="col" rowspan="2">Modality</th>
+<th scope="colgroup" colspan="3">Easy</th>
+<th scope="colgroup" colspan="3">Hard</th>
+</tr><tr>
+<th scope="col">EM</th>
+<th scope="col">Scaff.</th>
+<th scope="col">Tani.</th>
+<th scope="col">EM</th>
+<th scope="col">Scaff.</th>
+<th scope="col">Tani.</th>
+</tr></thead><tbody>
+<tr data-group="vlm" data-model="Qwen3-VL-8B" data-modality="s2s">
+<th scope="row" class="model-cell">Qwen3-VL-8B</th><td class="group-cell">General VLMs</td><td class="modality-cell">s2s</td>
+<td class="metric-separator">4.2</td>
+<td class="">49.2</td>
+<td class="">44.0</td>
+<td class="metric-separator">3.0</td>
+<td class="">52.2</td>
+<td class="">45.6</td>
+</tr>
+<tr data-group="vlm" data-model="Qwen3-VL-32B" data-modality="s2s">
+<th scope="row" class="model-cell">Qwen3-VL-32B</th><td class="group-cell">General VLMs</td><td class="modality-cell">s2s</td>
+<td class="metric-separator">12.8</td>
+<td class="">38.0</td>
+<td class="">57.7</td>
+<td class="metric-separator">10.0</td>
+<td class="">41.4</td>
+<td class="">52.9</td>
+</tr>
+<tr data-group="vlm" data-model="Claude Sonnet 4.6" data-modality="s2s">
+<th scope="row" class="model-cell">Claude Sonnet 4.6</th><td class="group-cell">General VLMs</td><td class="modality-cell">s2s</td>
+<td class="metric-separator"><u>24.0</u></td>
+<td class="">31.2</td>
+<td class=""><strong>88.6</strong></td>
+<td class="metric-separator"><u>16.2</u></td>
+<td class="">23.0</td>
+<td class=""><strong>87.5</strong></td>
+</tr>
+<tr data-group="vlm" data-model="GPT-4o" data-modality="s2s">
+<th scope="row" class="model-cell">GPT-4o</th><td class="group-cell">General VLMs</td><td class="modality-cell">s2s</td>
+<td class="metric-separator">19.4</td>
+<td class="">53.0</td>
+<td class="">59.9</td>
+<td class="metric-separator">10.4</td>
+<td class="">50.8</td>
+<td class="">54.0</td>
+</tr>
+<tr data-group="vlm" data-model="GPT-4.1" data-modality="s2s">
+<th scope="row" class="model-cell">GPT-4.1</th><td class="group-cell">General VLMs</td><td class="modality-cell">s2s</td>
+<td class="metric-separator">15.4</td>
+<td class="">48.2</td>
+<td class="">57.3</td>
+<td class="metric-separator">9.8</td>
+<td class="">51.0</td>
+<td class="">53.1</td>
+</tr>
+<tr data-group="vlm" data-model="GPT-5.5" data-modality="s2s">
+<th scope="row" class="model-cell">GPT-5.5</th><td class="group-cell">General VLMs</td><td class="modality-cell">s2s</td>
+<td class="metric-separator"><strong>44.6</strong></td>
+<td class=""><strong>62.2</strong></td>
+<td class=""><u>78.4</u></td>
+<td class="metric-separator"><strong>38.4</strong></td>
+<td class=""><strong>64.0</strong></td>
+<td class=""><u>76.7</u></td>
+</tr>
+<tr data-group="vlm" data-model="Gemini 2.5 Flash" data-modality="s2s">
+<th scope="row" class="model-cell">Gemini 2.5 Flash</th><td class="group-cell">General VLMs</td><td class="modality-cell">s2s</td>
+<td class="metric-separator">20.4</td>
+<td class=""><u>55.8</u></td>
+<td class="">62.5</td>
+<td class="metric-separator">20.8</td>
+<td class=""><u>56.4</u></td>
+<td class="">62.6</td>
+</tr>
+<tr data-group="vlm" data-model="Llama 4 Maverick" data-modality="s2s">
+<th scope="row" class="model-cell">Llama 4 Maverick</th><td class="group-cell">General VLMs</td><td class="modality-cell">s2s</td>
+<td class="metric-separator">12.2</td>
+<td class="">48.6</td>
+<td class="">52.0</td>
+<td class="metric-separator">9.0</td>
+<td class="">51.2</td>
+<td class="">48.9</td>
+</tr>
+<tr data-group="vlm" data-model="Qwen3-VL-8B" data-modality="i2s">
+<th scope="row" class="model-cell">Qwen3-VL-8B</th><td class="group-cell">General VLMs</td><td class="modality-cell">i2s</td>
+<td class="metric-separator">1.2</td>
+<td class="">25.0</td>
+<td class="">22.3</td>
+<td class="metric-separator">0.1</td>
+<td class="">25.6</td>
+<td class="">23.3</td>
+</tr>
+<tr data-group="vlm" data-model="Qwen3-VL-32B" data-modality="i2s">
+<th scope="row" class="model-cell">Qwen3-VL-32B</th><td class="group-cell">General VLMs</td><td class="modality-cell">i2s</td>
+<td class="metric-separator">2.6</td>
+<td class="">31.0</td>
+<td class="">34.1</td>
+<td class="metric-separator">2.6</td>
+<td class="">33.0</td>
+<td class="">32.6</td>
+</tr>
+<tr data-group="vlm" data-model="Claude Sonnet 4.6" data-modality="i2s">
+<th scope="row" class="model-cell">Claude Sonnet 4.6</th><td class="group-cell">General VLMs</td><td class="modality-cell">i2s</td>
+<td class="metric-separator"><u>10.2</u></td>
+<td class="">23.8</td>
+<td class=""><strong>66.5</strong></td>
+<td class="metric-separator"><u>7.8</u></td>
+<td class="">17.4</td>
+<td class=""><strong>72.9</strong></td>
+</tr>
+<tr data-group="vlm" data-model="GPT-4o" data-modality="i2s">
+<th scope="row" class="model-cell">GPT-4o</th><td class="group-cell">General VLMs</td><td class="modality-cell">i2s</td>
+<td class="metric-separator">4.4</td>
+<td class="">31.4</td>
+<td class="">36.5</td>
+<td class="metric-separator">1.8</td>
+<td class="">23.2</td>
+<td class="">34.4</td>
+</tr>
+<tr data-group="vlm" data-model="GPT-4.1" data-modality="i2s">
+<th scope="row" class="model-cell">GPT-4.1</th><td class="group-cell">General VLMs</td><td class="modality-cell">i2s</td>
+<td class="metric-separator">4.2</td>
+<td class="">31.4</td>
+<td class="">33.8</td>
+<td class="metric-separator">1.8</td>
+<td class="">27.6</td>
+<td class="">35.4</td>
+</tr>
+<tr data-group="vlm" data-model="GPT-5.5" data-modality="i2s">
+<th scope="row" class="model-cell">GPT-5.5</th><td class="group-cell">General VLMs</td><td class="modality-cell">i2s</td>
+<td class="metric-separator"><strong>16.2</strong></td>
+<td class=""><strong>51.8</strong></td>
+<td class=""><u>59.8</u></td>
+<td class="metric-separator"><strong>17.0</strong></td>
+<td class=""><strong>54.0</strong></td>
+<td class=""><u>61.3</u></td>
+</tr>
+<tr data-group="vlm" data-model="Gemini 2.5 Flash" data-modality="i2s">
+<th scope="row" class="model-cell">Gemini 2.5 Flash</th><td class="group-cell">General VLMs</td><td class="modality-cell">i2s</td>
+<td class="metric-separator">8.2</td>
+<td class=""><u>42.2</u></td>
+<td class="">51.1</td>
+<td class="metric-separator">5.6</td>
+<td class=""><u>40.4</u></td>
+<td class="">48.2</td>
+</tr>
+<tr data-group="vlm" data-model="Llama 4 Maverick" data-modality="i2s">
+<th scope="row" class="model-cell">Llama 4 Maverick</th><td class="group-cell">General VLMs</td><td class="modality-cell">i2s</td>
+<td class="metric-separator">7.0</td>
+<td class="">45.0</td>
+<td class="">43.1</td>
+<td class="metric-separator">5.2</td>
+<td class="">44.4</td>
+<td class="">40.8</td>
+</tr>
+<tr data-group="llm" data-model="DeepSeek-V4-Pro" data-modality="s2s">
+<th scope="row" class="model-cell">DeepSeek-V4-Pro</th><td class="group-cell">General LLMs</td><td class="modality-cell">s2s</td>
+<td class="metric-separator"><strong>50.7</strong></td>
+<td class=""><strong>72.7</strong></td>
+<td class=""><strong>82.6</strong></td>
+<td class="metric-separator"><strong>29.7</strong></td>
+<td class=""><u>54.6</u></td>
+<td class=""><strong>71.7</strong></td>
+</tr>
+<tr data-group="llm" data-model="DeepSeek-R1" data-modality="s2s">
+<th scope="row" class="model-cell">DeepSeek-R1</th><td class="group-cell">General LLMs</td><td class="modality-cell">s2s</td>
+<td class="metric-separator">24.5</td>
+<td class="">45.5</td>
+<td class=""><u>73.1</u></td>
+<td class="metric-separator">20.3</td>
+<td class="">45.9</td>
+<td class="">64.0</td>
+</tr>
+<tr data-group="llm" data-model="LLaMA-3.3-70B" data-modality="s2s">
+<th scope="row" class="model-cell">LLaMA-3.3-70B</th><td class="group-cell">General LLMs</td><td class="modality-cell">s2s</td>
+<td class="metric-separator">4.8</td>
+<td class="">35.6</td>
+<td class="">47.1</td>
+<td class="metric-separator">1.6</td>
+<td class="">38.2</td>
+<td class="">39.5</td>
+</tr>
+<tr data-group="llm" data-model="o3" data-modality="s2s">
+<th scope="row" class="model-cell">o3</th><td class="group-cell">General LLMs</td><td class="modality-cell">s2s</td>
+<td class="metric-separator"><u>37.1</u></td>
+<td class=""><u>64.7</u></td>
+<td class="">76.6</td>
+<td class="metric-separator"><u>28.7</u></td>
+<td class=""><strong>64.1</strong></td>
+<td class=""><u>72.2</u></td>
+</tr>
+<tr data-group="llm" data-model="Qwen3-Max" data-modality="s2s">
+<th scope="row" class="model-cell">Qwen3-Max</th><td class="group-cell">General LLMs</td><td class="modality-cell">s2s</td>
+<td class="metric-separator">15.6</td>
+<td class="">50.0</td>
+<td class="">58.1</td>
+<td class="metric-separator">13.8</td>
+<td class="">48.6</td>
+<td class="">56.2</td>
+</tr>
+<tr data-group="chemical" data-model="MarkushGrapher-2" data-modality="i2s">
+<th scope="row" class="model-cell">MarkushGrapher-2</th><td class="group-cell">Chemical-domain Models</td><td class="modality-cell">i2s</td>
+<td class="metric-separator">5.4</td>
+<td class="">14.8</td>
+<td class="">68.6</td>
+<td class="metric-separator">0.0</td>
+<td class="">0.0</td>
+<td class="">0.0</td>
+</tr>
+<tr data-group="chemical" data-model="ChemVLM-8B" data-modality="i2s">
+<th scope="row" class="model-cell">ChemVLM-8B</th><td class="group-cell">Chemical-domain Models</td><td class="modality-cell">i2s</td>
+<td class="metric-separator">0.6</td>
+<td class="">37.8</td>
+<td class="">32.8</td>
+<td class="metric-separator">0.6</td>
+<td class="">41.6</td>
+<td class="">30.9</td>
+</tr>
+<tr data-group="chemical" data-model="MolVL-7B" data-modality="i2s">
+<th scope="row" class="model-cell">MolVL-7B</th><td class="group-cell">Chemical-domain Models</td><td class="modality-cell">i2s</td>
+<td class="metric-separator">0.0</td>
+<td class="">28.4</td>
+<td class="">18.0</td>
+<td class="metric-separator">0.0</td>
+<td class="">24.6</td>
+<td class="">19.1</td>
+</tr>
+<tr data-group="chemical" data-model="ChemVLM-8B" data-modality="s2s">
+<th scope="row" class="model-cell">ChemVLM-8B</th><td class="group-cell">Chemical-domain Models</td><td class="modality-cell">s2s</td>
+<td class="metric-separator">2.8</td>
+<td class="">34.0</td>
+<td class="">41.4</td>
+<td class="metric-separator">1.8</td>
+<td class="">36.2</td>
+<td class="">36.9</td>
+</tr>
+<tr data-group="chemical" data-model="MolVL-7B" data-modality="s2s">
+<th scope="row" class="model-cell">MolVL-7B</th><td class="group-cell">Chemical-domain Models</td><td class="modality-cell">s2s</td>
+<td class="metric-separator">0.0</td>
+<td class="">18.2</td>
+<td class="">19.5</td>
+<td class="metric-separator">0.0</td>
+<td class="">15.2</td>
+<td class="">16.8</td>
+</tr>
+</tbody></table></div>
+  <p class="results-empty" id="results-empty" hidden data-results-i18n="empty">No rows match these filters. Try another model or modality.</p>
+  <p class="results-table-note" data-results-i18n="tableNote">Scores are percentages; ΔEH is Easy − Hard in percentage points. EM = Exact Match; Scaff. = Scaffold Match; Tani. = Tanimoto Similarity. Values and emphasis are reproduced as reported in the manuscript.</p>
+  <p class="results-table-note" data-results-i18n="sourceNote">† A source-reported Δ differs from Easy − Hard for the displayed scores; the original value is retained. Ranking marks are also transcribed, not recomputed.</p>
+  <p class="results-table-note" data-results-i18n="modalityNote">i = image; s = E-SMILES input / SMILES output. Bold and underlined values reproduce the paper’s best / second-best annotations within each model group and modality.</p>
+</div>
+</div></section>
 
   <section class="academic-section failure-section" id="failures"><div class="academic-container"><div class="section-kicker"><span>04</span><span data-i18n="failuresKicker">WHEN THE SYSTEM BREAKS</span></div><div class="section-heading"><h2 data-i18n="failuresTitle">Four ways a plausible molecule can still be wrong.</h2><p data-i18n="failuresIntro">These are the failure patterns the benchmark is designed to expose.</p></div><div class="failure-layout"><div class="failure-list"><article class="failure-row"><span class="failure-code">F–01</span><div><h3 data-i18n="failure1Title">Semantic disconnect</h3><p data-i18n="failure1Body">The model identifies a chlorophenyl family, then puts chlorine at the wrong position.</p></div><span class="failure-signal">↗</span></article><article class="failure-row"><span class="failure-code">F–02</span><div><h3 data-i18n="failure2Title">Pseudo-reasoning</h3><p data-i18n="failure2Body">A fluent BRAF explanation still picks the weaker candidate (6.14) over the higher-activity option.</p></div><span class="failure-signal">↗</span></article><article class="failure-row"><span class="failure-code">F–03</span><div><h3 data-i18n="failure3Title">Structural error</h3><p data-i18n="failure3Body">The generated SMILES is valid and moderately similar, but its local connectivity is wrong.</p></div><span class="failure-signal">↗</span></article><article class="failure-row"><span class="failure-code">F–04</span><div><h3 data-i18n="failure4Title">Backbone alteration</h3><p data-i18n="failure4Body">Instead of replacing one R-group, the model changes the scaffold it was meant to preserve.</p></div><span class="failure-signal">↗</span></article></div><figure class="case-study"><img src="assets/case-study.png" alt="Four representative R-GroundBench failure cases"><figcaption data-i18n="caseCaption">Representative GPT-4.1 failures from the paper’s case study.</figcaption></figure></div></div></section>
 
@@ -38,5 +965,5 @@
 }</code></pre><p class="template-credit">This page uses the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank" rel="noreferrer">Academic Project Page Template</a>, adapted from the Nerfies project page.</p></div></section>
 </main>
 <footer class="academic-footer"><p>R-GroundBench · Markush molecular editing</p><a href="#hero">Back to top ↑</a></footer>
-<script src="assets/smiles-drawer.min.js" defer></script><script src="app.js" defer></script>
+<script src="assets/smiles-drawer.min.js" defer></script><script src="app.js" defer></script><script src="results.js" defer></script>
 </body></html>
